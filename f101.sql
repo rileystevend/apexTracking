@@ -27,7 +27,7 @@ prompt APPLICATION 101 - TestApp
 -- Application Export:
 --   Application:     101
 --   Name:            TestApp
---   Date and Time:   02:06 Wednesday January 29, 2020
+--   Date and Time:   03:42 Friday January 31, 2020
 --   Exported By:     DEVELOPER
 --   Flashback:       0
 --   Export Type:     Application Export
@@ -37,11 +37,11 @@ prompt APPLICATION 101 - TestApp
 
 -- Application Statistics:
 --   Pages:                      8
---     Items:                   19
+--     Items:                   20
 --     Processes:                9
---     Regions:                 13
---     Buttons:                 11
---     Dynamic Actions:          3
+--     Regions:                 14
+--     Buttons:                 12
+--     Dynamic Actions:          5
 --   Shared Components:
 --     Logic:
 --     Navigation:
@@ -112,7 +112,7 @@ wwv_flow_api.create_flow(
 ,p_substitution_string_01=>'APP_NAME'
 ,p_substitution_value_01=>'TestApp'
 ,p_last_updated_by=>'DEVELOPER'
-,p_last_upd_yyyymmddhh24miss=>'20200129015823'
+,p_last_upd_yyyymmddhh24miss=>'20200131033951'
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_app_file_prefix,'')
 ,p_files_version=>3
 ,p_ui_type_name => null
@@ -13740,25 +13740,26 @@ wwv_flow_api.create_page(
 ,p_autocomplete_on_off=>'OFF'
 ,p_page_template_options=>'#DEFAULT#'
 ,p_last_updated_by=>'DEVELOPER'
-,p_last_upd_yyyymmddhh24miss=>'20200129015823'
+,p_last_upd_yyyymmddhh24miss=>'20200131033951'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(12163820481359905)
 ,p_plug_name=>'Map'
 ,p_region_template_options=>'#DEFAULT#:t-Region--scrollBody'
 ,p_plug_template=>wwv_flow_api.id(12373727786957925)
-,p_plug_display_sequence=>10
+,p_plug_display_sequence=>20
 ,p_include_in_reg_disp_sel_yn=>'Y'
 ,p_plug_display_point=>'BODY'
 ,p_query_type=>'SQL'
 ,p_plug_source=>wwv_flow_string.join(wwv_flow_t_varchar2(
-'select TEST1.STATUS_LATITUDE as STATUS_LATITUDE,',
+'select TEST1.CARRIER_LOAD_NBR as CARRIER_LOAD_NBR,',
+'    TEST1.STATUS_LATITUDE as STATUS_LATITUDE,',
 '    TEST1.STATUS_LONGITUDE as STATUS_LONGITUDE,',
-'    TEST1.GROUND_CARRIER_SCAC as GROUND_CARRIER_SCAC,',
-'    TEST1.ID as ID,',
-'    TEST1.CARRIER_LOAD_NBR as CARRIER_LOAD_NBR ',
-' from TEST1 TEST1'))
+'    TEST1.GROUND_CARRIER_NAME as GROUND_CARRIER_NAME ',
+' from TEST1 TEST1 ',
+' where TEST1.CARRIER_LOAD_NBR = :ENTER_LOAD'))
 ,p_plug_source_type=>'PLUGIN_COM.JK64.REPORT_GOOGLE_MAP_R1'
+,p_ajax_items_to_submit=>'ENTER_LOAD'
 ,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
 ,p_attribute_01=>'400'
 ,p_attribute_02=>'PINS'
@@ -13767,6 +13768,86 @@ wwv_flow_api.create_page_plug(
 ,p_attribute_22=>'ROADMAP'
 ,p_attribute_24=>'Y'
 ,p_attribute_25=>'auto'
+);
+wwv_flow_api.create_page_plug(
+ p_id=>wwv_flow_api.id(12522982033711837)
+,p_plug_name=>'SearchBox'
+,p_region_template_options=>'#DEFAULT#:t-Region--scrollBody'
+,p_plug_template=>wwv_flow_api.id(12373727786957925)
+,p_plug_display_sequence=>10
+,p_include_in_reg_disp_sel_yn=>'Y'
+,p_plug_display_point=>'BODY'
+,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
+,p_attribute_01=>'N'
+,p_attribute_02=>'HTML'
+);
+wwv_flow_api.create_page_button(
+ p_id=>wwv_flow_api.id(12523299321711840)
+,p_button_sequence=>20
+,p_button_plug_id=>wwv_flow_api.id(12522982033711837)
+,p_button_name=>'Submit'
+,p_button_action=>'DEFINED_BY_DA'
+,p_button_template_options=>'#DEFAULT#'
+,p_button_template_id=>wwv_flow_api.id(12429804071957963)
+,p_button_image_alt=>'Submit'
+,p_button_position=>'BODY'
+,p_warn_on_unsaved_changes=>null
+,p_grid_new_row=>'Y'
+);
+wwv_flow_api.create_page_item(
+ p_id=>wwv_flow_api.id(12523587848711843)
+,p_name=>'ENTER_LOAD'
+,p_item_sequence=>30
+,p_item_plug_id=>wwv_flow_api.id(12522982033711837)
+,p_prompt=>'Enter Load'
+,p_display_as=>'NATIVE_NUMBER_FIELD'
+,p_cSize=>30
+,p_field_template=>wwv_flow_api.id(12428775252957959)
+,p_item_template_options=>'#DEFAULT#'
+,p_attribute_03=>'right'
+);
+wwv_flow_api.create_page_da_event(
+ p_id=>wwv_flow_api.id(12521899684711826)
+,p_name=>'SetVar'
+,p_event_sequence=>10
+,p_triggering_element_type=>'REGION'
+,p_triggering_region_id=>wwv_flow_api.id(12163820481359905)
+,p_bind_type=>'bind'
+,p_bind_event_type=>'change'
+);
+wwv_flow_api.create_page_da_action(
+ p_id=>wwv_flow_api.id(12521912884711827)
+,p_event_id=>wwv_flow_api.id(12521899684711826)
+,p_event_result=>'TRUE'
+,p_action_sequence=>10
+,p_execute_on_page_init=>'N'
+,p_action=>'NATIVE_SET_VALUE'
+,p_affected_elements_type=>'ITEM'
+,p_affected_elements=>'ENTER_LOAD'
+,p_attribute_01=>'STATIC_ASSIGNMENT'
+,p_attribute_02=>'P7_NEW'
+,p_attribute_09=>'N'
+,p_stop_execution_on_error=>'Y'
+,p_wait_for_result=>'Y'
+);
+wwv_flow_api.create_page_da_event(
+ p_id=>wwv_flow_api.id(12523356932711841)
+,p_name=>'Refresh'
+,p_event_sequence=>20
+,p_triggering_element_type=>'BUTTON'
+,p_triggering_button_id=>wwv_flow_api.id(12523299321711840)
+,p_bind_type=>'bind'
+,p_bind_event_type=>'click'
+);
+wwv_flow_api.create_page_da_action(
+ p_id=>wwv_flow_api.id(12523448570711842)
+,p_event_id=>wwv_flow_api.id(12523356932711841)
+,p_event_result=>'TRUE'
+,p_action_sequence=>10
+,p_execute_on_page_init=>'N'
+,p_action=>'NATIVE_REFRESH'
+,p_affected_elements_type=>'REGION'
+,p_affected_region_id=>wwv_flow_api.id(12163820481359905)
 );
 end;
 /
