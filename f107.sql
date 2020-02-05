@@ -27,7 +27,7 @@ prompt APPLICATION 107 - Ryder Tracking App
 -- Application Export:
 --   Application:     107
 --   Name:            Ryder Tracking App
---   Date and Time:   04:30 Wednesday February 5, 2020
+--   Date and Time:   17:09 Wednesday February 5, 2020
 --   Exported By:     DEVELOPER
 --   Flashback:       0
 --   Export Type:     Application Export
@@ -115,7 +115,7 @@ wwv_flow_api.create_flow(
 ,p_substitution_string_01=>'APP_NAME'
 ,p_substitution_value_01=>'Ryder Tracking App'
 ,p_last_updated_by=>'DEVELOPER'
-,p_last_upd_yyyymmddhh24miss=>'20200205032048'
+,p_last_upd_yyyymmddhh24miss=>'20200205170823'
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_app_file_prefix,'')
 ,p_files_version=>6
 ,p_ui_type_name => null
@@ -14863,7 +14863,7 @@ wwv_flow_api.create_page(
 ,p_autocomplete_on_off=>'OFF'
 ,p_page_template_options=>'#DEFAULT#'
 ,p_last_updated_by=>'DEVELOPER'
-,p_last_upd_yyyymmddhh24miss=>'20200205032048'
+,p_last_upd_yyyymmddhh24miss=>'20200205170823'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(13120421378154120)
@@ -14880,6 +14880,7 @@ wwv_flow_api.create_page_plug(
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(13120545331154121)
 ,p_plug_name=>'Map'
+,p_region_name=>'map'
 ,p_region_template_options=>'#DEFAULT#:t-Region--scrollBody'
 ,p_plug_template=>wwv_flow_api.id(14173426763088404)
 ,p_plug_display_sequence=>20
@@ -14891,9 +14892,10 @@ wwv_flow_api.create_page_plug(
 '    COMPLETEAPP.STATUS_LONGITUDE as STATUS_LONGITUDE,',
 '    COMPLETEAPP.GROUND_CARRIER_NAME as GROUND_CARRIER_NAME,',
 '    COMPLETEAPP.CARRIER_LOAD_NBR as CARRIER_LOAD_NBR,',
-'    COMPLETEAPP.STATUS_DESC as STATUS_DESC ',
+'    COMPLETEAPP.STATUS_DESC || '' (''|| SUBSTR(COMPLETEAPP.STATUS_UPDATE_TIME, 0, 15) ||'')'' ',
 ' from COMPLETEAPP COMPLETEAPP ',
-' where COMPLETEAPP.CARRIER_LOAD_NBR =:ENTER_LOAD_NUMBER'))
+' where COMPLETEAPP.CARRIER_LOAD_NBR =:ENTER_LOAD_NUMBER',
+' '))
 ,p_plug_source_type=>'PLUGIN_COM.JK64.REPORT_GOOGLE_MAP_R1'
 ,p_ajax_items_to_submit=>'ENTER_LOAD_NUMBER'
 ,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
@@ -14919,7 +14921,7 @@ wwv_flow_api.create_page_plug(
 );
 wwv_flow_api.create_page_button(
  p_id=>wwv_flow_api.id(13120707296154123)
-,p_button_sequence=>20
+,p_button_sequence=>30
 ,p_button_plug_id=>wwv_flow_api.id(13120421378154120)
 ,p_button_name=>'Submit_Button'
 ,p_button_action=>'DEFINED_BY_DA'
@@ -14981,7 +14983,7 @@ wwv_flow_api.create_page(
 'display: none;}'))
 ,p_page_template_options=>'#DEFAULT#'
 ,p_last_updated_by=>'DEVELOPER'
-,p_last_upd_yyyymmddhh24miss=>'20200204174559'
+,p_last_upd_yyyymmddhh24miss=>'20200205144714'
 );
 wwv_flow_api.create_report_region(
  p_id=>wwv_flow_api.id(14276790645088553)
@@ -15012,8 +15014,12 @@ wwv_flow_api.create_report_region(
 ,p_query_no_data_found=>'no data found'
 ,p_query_num_rows_type=>'NEXT_PREVIOUS_LINKS'
 ,p_query_row_count_max=>500
+,p_pagination_display_position=>'BOTTOM_RIGHT'
 ,p_csv_output=>'Y'
 ,p_csv_output_link_text=>'Download'
+,p_prn_output=>'N'
+,p_sort_null=>'L'
+,p_plug_query_strip_html=>'Y'
 );
 wwv_flow_api.create_report_columns(
  p_id=>wwv_flow_api.id(14277152346088556)
